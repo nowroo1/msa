@@ -93,13 +93,13 @@ public class RoomviewViewHandler {
             // view 객체 조회
 
             List<Roomview> roomviewList = roomviewRepository.findByRsvId(
-                reservationAccepted.getId()
+                reservationAccepted.getRsvId()
             );
             for (Roomview roomview : roomviewList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
                 roomview.setRsvStatus(reservationAccepted.getStatus());
                 roomview.setPayId(reservationAccepted.getPayId());
-                roomview.setPayStatus(0);
+                roomview.setPayStatus(true);
                 // view 레파지 토리에 save
                 roomviewRepository.save(roomview);
             }
@@ -117,7 +117,7 @@ public class RoomviewViewHandler {
             // view 객체 조회
 
             List<Roomview> roomviewList = roomviewRepository.findByRsvId(
-                reservationConfirmed.getId()
+                reservationConfirmed.getRsvId()
             );
             for (Roomview roomview : roomviewList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
@@ -161,7 +161,7 @@ public class RoomviewViewHandler {
             // view 객체 조회
 
             List<Roomview> roomviewList = roomviewRepository.findByRsvId(
-                reservationRejected.getId()
+                reservationRejected.getRsvId()
             );
             for (Roomview roomview : roomviewList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
@@ -183,13 +183,13 @@ public class RoomviewViewHandler {
             // view 객체 조회
 
             List<Roomview> roomviewList = roomviewRepository.findByRsvId(
-                reservationCancelled.getId()
+                reservationCancelled.getRsvId()
             );
             for (Roomview roomview : roomviewList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
-                roomview.setRsvId(0);
+                roomview.setRsvId(0L);
                 roomview.setRsvStatus(0);
-                roomview.setPayId(0);
+                roomview.setPayId(0L);
                 // view 레파지 토리에 save
                 roomviewRepository.save(roomview);
             }
@@ -206,7 +206,7 @@ public class RoomviewViewHandler {
             if (!roomReserved.validate()) return;
             // view 객체 조회
             Optional<Roomview> roomviewOptional = roomviewRepository.findById(
-                roomReserved.getId()
+                roomReserved.getRoomId()
             );
 
             if (roomviewOptional.isPresent()) {
@@ -252,7 +252,7 @@ public class RoomviewViewHandler {
             // view 객체 조회
 
             List<Roomview> roomviewList = roomviewRepository.findByPayId(
-                paymentCancelled.getId()
+                paymentCancelled.getPayId()
             );
             for (Roomview roomview : roomviewList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
