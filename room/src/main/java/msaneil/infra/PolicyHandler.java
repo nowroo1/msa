@@ -90,6 +90,22 @@ public class PolicyHandler {
         // Sample Logic //
         Room.cancel(event);
     }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='ReservationRejected'"
+    )
+    public void wheneverReservationRejected_Cancel(
+        @Payload ReservationRejected reservationRejected
+    ) {
+        ReservationRejected event = reservationRejected;
+        System.out.println(
+            "\n\n##### listener Cancel : " + reservationRejected + "\n\n"
+        );
+
+        // Sample Logic //
+        Room.cancel(event);
+    }
     // keep
 
 }

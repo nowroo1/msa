@@ -140,4 +140,28 @@ public class Room {
         */
 
     }
+
+    public static void cancel(ReservationRejected reservationRejected) {
+        /** Example 1:  new item 
+        Room room = new Room();
+        repository().save(room);
+
+        RoomCancelled roomCancelled = new RoomCancelled(room);
+        roomCancelled.publishAfterCommit();
+        */
+
+        /** Example 2:  finding and process
+        
+        repository().findById(reservationRejected.get???()).ifPresent(room->{
+            
+            room // do something
+            repository().save(room);
+
+            RoomCancelled roomCancelled = new RoomCancelled(room);
+            roomCancelled.publishAfterCommit();
+
+         });
+        */
+
+    }
 }

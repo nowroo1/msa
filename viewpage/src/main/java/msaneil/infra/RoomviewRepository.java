@@ -9,6 +9,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface RoomviewRepository
     extends PagingAndSortingRepository<Roomview, Long> {
     List<Roomview> findByRsvId(Long rsvId);
+    List<Roomview> findByRsvStatus(Integer rsvStatus);
+    List<Roomview> findByPayId(Long payId);
     // keep
 
 }

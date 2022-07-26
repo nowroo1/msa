@@ -5,7 +5,7 @@ import lombok.Data;
 import msaneil.infra.AbstractEvent;
 
 @Data
-public class ReservationRequested extends AbstractEvent {
+public class ReservationRejected extends AbstractEvent {
 
     private Long rsvId;
     private Long roomId;

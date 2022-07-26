@@ -5,9 +5,10 @@ import lombok.Data;
 import msaneil.infra.AbstractEvent;
 
 @Data
-public class ReservationRequested extends AbstractEvent {
+public class PaymentCancelled extends AbstractEvent {
 
+    private Long payId;
     private Long rsvId;
     private Long roomId;
-    private Integer status;
+    private Boolean status;
 }
