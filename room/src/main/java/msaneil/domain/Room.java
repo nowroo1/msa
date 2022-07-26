@@ -28,20 +28,24 @@ public class Room {
 
     @PostPersist
     public void onPostPersist() {
+
+        reviewCnt = 0;
+        status = true;
+
         RoomRegistered roomRegistered = new RoomRegistered(this);
         roomRegistered.publishAfterCommit();
 
-        RoomModified roomModified = new RoomModified(this);
-        roomModified.publishAfterCommit();
+        // RoomModified roomModified = new RoomModified(this);
+        // roomModified.publishAfterCommit();
 
-        RoomDeleted roomDeleted = new RoomDeleted(this);
-        roomDeleted.publishAfterCommit();
+        // RoomDeleted roomDeleted = new RoomDeleted(this);
+        // roomDeleted.publishAfterCommit();
 
-        RoomReserved roomReserved = new RoomReserved(this);
-        roomReserved.publishAfterCommit();
+        // RoomReserved roomReserved = new RoomReserved(this);
+        // roomReserved.publishAfterCommit();
 
-        RoomCancelled roomCancelled = new RoomCancelled(this);
-        roomCancelled.publishAfterCommit();
+        // RoomCancelled roomCancelled = new RoomCancelled(this);
+        // roomCancelled.publishAfterCommit();
     }
 
     public static RoomRepository repository() {
@@ -94,13 +98,8 @@ public class Room {
     public static void confirmReserve(
         ReservationConfirmed reservationConfirmed
     ) {
-        /** Example 1:  new item 
-        Room room = new Room();
-        repository().save(room);
-
         RoomReserved roomReserved = new RoomReserved(room);
         roomReserved.publishAfterCommit();
-        */
 
         /** Example 2:  finding and process
         

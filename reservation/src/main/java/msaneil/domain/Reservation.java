@@ -29,40 +29,58 @@ public class Reservation {
 
     @PostPersist
     public void onPostPersist() {
+
         ReservationRequested reservationRequested = new ReservationRequested(
             this
         );
+
         reservationRequested.publishAfterCommit();
 
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-        msaneil.external.Payment payment = new msaneil.external.Payment();
-        // mappings goes here
-        ReservationApplication.applicationContext
-            .getBean(msaneil.external.PaymentService.class)
-            .approvePayment(payment);
+        // ReservationConfirmed reservationConfirmed = new ReservationConfirmed(
+        //     this
+        // );
+        // reservationConfirmed.publishAfterCommit();
 
-        ReservationAccepted reservationAccepted = new ReservationAccepted(this);
-        reservationAccepted.publishAfterCommit();
+        // ReservationCancelled reservationCancelled = new ReservationCancelled(
+        //     this
+        // );
+        // reservationCancelled.publishAfterCommit();
+    }
 
-        ReservationRejected reservationRejected = new ReservationRejected(this);
-        reservationRejected.publishAfterCommit();
+    @PostUpdate
+    public void onPostUpdate(){
 
-        ReservationCancelRequested reservationCancelRequested = new ReservationCancelRequested(
-            this
-        );
-        reservationCancelRequested.publishAfterCommit();
+        //status : 0 -> ReservationRequested
+        //status : 1 -> ReservationCancelRequested
+        //status : 2 -> ReservationAccepted
+        //status : 3 -> ReservationRejected
 
-        ReservationConfirmed reservationConfirmed = new ReservationConfirmed(
-            this
-        );
-        reservationConfirmed.publishAfterCommit();
+        if(this.getStatus() == 1) {
 
-        ReservationCancelled reservationCancelled = new ReservationCancelled(
-            this
-        );
-        reservationCancelled.publishAfterCommit();
+            ReservationCancelRequested reservationCancelRequested = new ReservationCancelRequested(
+                this
+            );
+            reservationCancelRequested.publishAfterCommit();
+        }
+        else if(this.getStatus() == 2) {
+            msaneil.external.Payment payment = new msaneil.external.Payment();
+            // mappings goes here
+            payment.setRsvId(this.getRsvId());
+            payment.setRoomId(this.getRoomId());
+            payment.setStatus(true);
+
+            ReservationApplication.applicationContext
+                .getBean(msaneil.external.PaymentService.class)
+                .approvePayment(payment);
+    
+            ReservationAccepted reservationAccepted = new ReservationAccepted(this);
+            reservationAccepted.publishAfterCommit();
+        }
+        else if(this.getStatus() == 3) {
+            ReservationRejected reservationRejected = new ReservationRejected(this);
+            reservationRejected.publishAfterCommit();
+        }
     }
 
     public static ReservationRepository repository() {
@@ -73,13 +91,8 @@ public class Reservation {
     }
 
     public static void confirmReserve(PaymentApproved paymentApproved) {
-        /** Example 1:  new item 
-        Reservation reservation = new Reservation();
-        repository().save(reservation);
-
         ReservationConfirmed reservationConfirmed = new ReservationConfirmed(reservation);
         reservationConfirmed.publishAfterCommit();
-        */
 
         /** Example 2:  finding and process
         

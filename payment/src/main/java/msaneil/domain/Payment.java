@@ -28,8 +28,8 @@ public class Payment {
         PaymentApproved paymentApproved = new PaymentApproved(this);
         paymentApproved.publishAfterCommit();
 
-        PaymentCancelled paymentCancelled = new PaymentCancelled(this);
-        paymentCancelled.publishAfterCommit();
+        // PaymentCancelled paymentCancelled = new PaymentCancelled(this);
+        // paymentCancelled.publishAfterCommit();
     }
 
     public static PaymentRepository repository() {
@@ -42,13 +42,8 @@ public class Payment {
     public static void cancelPayment(
         ReservationCancelRequested reservationCancelRequested
     ) {
-        /** Example 1:  new item 
-        Payment payment = new Payment();
-        repository().save(payment);
-
-        PaymentCancelled paymentCancelled = new PaymentCancelled(payment);
+        PaymentCancelled paymentCancelled = new PaymentCancelled(this);
         paymentCancelled.publishAfterCommit();
-        */
 
         /** Example 2:  finding and process
         
